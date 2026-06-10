@@ -10,7 +10,7 @@ import {
   Mail,
   Send,
   Settings,
-  Rocket
+  Rocket,
 } from "lucide-react";
 
 import {
@@ -24,7 +24,6 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-  SidebarProvider,
 } from "@/components/ui/sidebar";
 
 const mainNavItems = [
@@ -43,27 +42,31 @@ export function AppSidebar() {
   const pathname = usePathname();
 
   return (
-    <ShadcnSidebar variant="inset" className="border-r border-border/50">
-      <SidebarHeader className="h-16 flex items-center justify-center px-4 border-b border-border/50">
-        <div className="flex items-center gap-2 font-bold text-xl text-gradient w-full">
-          <Rocket className="w-6 h-6 text-primary" />
-          <span>LeadPilot AI</span>
+    <ShadcnSidebar variant="inset" className="border-r border-[#1E293B] bg-[#0B1120] w-60">
+      <SidebarHeader className="h-[72px] flex items-center px-5 border-b border-[#1E293B]">
+        <div className="flex items-center gap-2.5 w-full">
+          <div className="w-8 h-8 rounded-lg bg-[#6366F1] flex items-center justify-center">
+            <Rocket className="w-4 h-4 text-white" />
+          </div>
+          <span className="font-bold text-lg text-white tracking-tight">LeadPilot AI</span>
         </div>
       </SidebarHeader>
-      
-      <SidebarContent>
+
+      <SidebarContent className="px-3 py-5 space-y-6">
         <SidebarGroup>
-          <SidebarGroupLabel>Main Menu</SidebarGroupLabel>
+          <SidebarGroupLabel className="px-3 text-[11px] font-semibold text-slate-500 uppercase tracking-widest mb-3">
+            Main Menu
+          </SidebarGroupLabel>
           <SidebarGroupContent>
-            <SidebarMenu>
+            <SidebarMenu className="space-y-0.5">
               {mainNavItems.map((item) => (
                 <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton 
+                  <SidebarMenuButton
                     render={<Link href={item.url} />}
                     isActive={pathname === item.url || pathname.startsWith(`${item.url}/`)}
-                    className="transition-all duration-200 hover:text-primary hover:bg-primary/10 data-[active=true]:bg-primary/15 data-[active=true]:text-primary"
+                    className="px-3 py-2 rounded-md transition-all duration-150 text-slate-400 hover:text-white hover:bg-[#1E293B] data-[active=true]:bg-[#6366F1]/10 data-[active=true]:text-[#818CF8] font-medium text-[13px]"
                   >
-                    <item.icon className="w-4 h-4" />
+                    <item.icon className="w-4 h-4 mr-2.5" />
                     <span>{item.title}</span>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
@@ -72,18 +75,20 @@ export function AppSidebar() {
           </SidebarGroupContent>
         </SidebarGroup>
 
-        <SidebarGroup className="mt-4">
-          <SidebarGroupLabel>Workspace</SidebarGroupLabel>
+        <SidebarGroup>
+          <SidebarGroupLabel className="px-3 text-[11px] font-semibold text-slate-500 uppercase tracking-widest mb-3">
+            Workspace
+          </SidebarGroupLabel>
           <SidebarGroupContent>
-            <SidebarMenu>
+            <SidebarMenu className="space-y-0.5">
               {workspaceItems.map((item) => (
                 <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton 
+                  <SidebarMenuButton
                     render={<Link href={item.url} />}
                     isActive={pathname === item.url || pathname.startsWith(`${item.url}/`)}
-                    className="transition-all duration-200 hover:text-primary hover:bg-primary/10 data-[active=true]:bg-primary/15 data-[active=true]:text-primary"
+                    className="px-3 py-2 rounded-md transition-all duration-150 text-slate-400 hover:text-white hover:bg-[#1E293B] data-[active=true]:bg-[#6366F1]/10 data-[active=true]:text-[#818CF8] font-medium text-[13px]"
                   >
-                    <item.icon className="w-4 h-4" />
+                    <item.icon className="w-4 h-4 mr-2.5" />
                     <span>{item.title}</span>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
@@ -93,15 +98,15 @@ export function AppSidebar() {
         </SidebarGroup>
       </SidebarContent>
 
-      <SidebarFooter className="border-t border-border/50 p-4">
+      <SidebarFooter className="border-t border-[#1E293B] p-3">
         <SidebarMenu>
           <SidebarMenuItem>
-            <SidebarMenuButton 
+            <SidebarMenuButton
               render={<Link href="/settings" />}
               isActive={pathname === "/settings"}
-              className="transition-all duration-200 hover:text-primary hover:bg-primary/10"
+              className="px-3 py-2 rounded-md transition-all duration-150 text-slate-400 hover:text-white hover:bg-[#1E293B] data-[active=true]:bg-[#6366F1]/10 data-[active=true]:text-[#818CF8] font-medium text-[13px]"
             >
-              <Settings className="w-4 h-4" />
+              <Settings className="w-4 h-4 mr-2.5" />
               <span>Settings</span>
             </SidebarMenuButton>
           </SidebarMenuItem>

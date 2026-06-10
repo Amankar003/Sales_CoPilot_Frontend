@@ -15,4 +15,9 @@ export const reportService = {
   downloadReportUrl: (reportId: number): string => {
     return `${api.defaults.baseURL}/reports/download/${reportId}`;
   },
+
+  getReports: async (params?: { campaign_id?: number }): Promise<Report[]> => {
+    const { data } = await api.get("/reports", { params });
+    return data;
+  },
 };

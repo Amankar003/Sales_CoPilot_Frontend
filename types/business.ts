@@ -1,5 +1,6 @@
 export interface Business {
   id: number;
+  campaign_id: number | null;
   name: string;
   category: string;
   location: string;
@@ -20,6 +21,7 @@ export interface Business {
 }
 
 export interface BusinessCreate {
+  campaign_id?: number | null;
   name: string;
   category: string;
   location: string;

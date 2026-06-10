@@ -2,7 +2,7 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { leadService } from "@/services/leadService";
 import { BusinessCreate, DiscoverRequest } from "@/types/business";
 
-export const useLeads = (params?: { skip?: number; limit?: number; category?: string }) => {
+export const useLeads = (params?: { skip?: number; limit?: number; category?: string; campaign_id?: number | null }) => {
   return useQuery({
     queryKey: ["leads", params],
     queryFn: () => leadService.getLeads(params),

@@ -6,7 +6,7 @@ import { StatsCards } from "@/components/dashboard/StatsCards";
 import { RecentLeads } from "@/components/dashboard/RecentLeads";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Activity, ArrowRight, FileCheck } from "lucide-react";
+import { Activity, ArrowRight, FileCheck, FolderKanban } from "lucide-react";
 import Link from "next/link";
 import { Skeleton } from "@/components/ui/skeleton";
 import { formatDistanceToNow } from "date-fns";
@@ -22,9 +22,9 @@ export default function DashboardPage() {
     queryFn: () => dashboardService.getRecentLeads(6),
   });
 
-  const { data: recentAudits, isLoading: isAuditsLoading } = useQuery({
-    queryKey: ["dashboard", "recent-audits"],
-    queryFn: () => dashboardService.getRecentAudits(5),
+  const { data: recentCampaigns, isLoading: isCampaignsLoading } = useQuery({
+    queryKey: ["dashboard", "recent-campaigns"],
+    queryFn: () => dashboardService.getRecentCampaigns(5),
   });
 
   // Helper for score colors
@@ -49,22 +49,22 @@ export default function DashboardPage() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 h-[450px]">
         <RecentLeads leads={recentLeads} isLoading={isLeadsLoading} />
         
-        {/* Recent Audits Card */}
+        {/* Recent Campaigns Card */}
         <Card className="glass-card border-border/40 flex flex-col h-full">
           <CardHeader>
             <div className="flex items-center justify-between">
               <div>
-                <CardTitle>Recent Audits</CardTitle>
-                <CardDescription>Latest website and social media analysis.</CardDescription>
+                <CardTitle>Recent Campaigns</CardTitle>
+                <CardDescription>Latest lead discovery campaigns.</CardDescription>
               </div>
               <div className="p-2 bg-primary/10 rounded-full">
-                <Activity className="h-5 w-5 text-primary" />
+                <FolderKanban className="h-5 w-5 text-primary" />
               </div>
             </div>
           </CardHeader>
           <CardContent className="flex-1 overflow-auto px-0 pt-0">
             <div className="space-y-0">
-              {isAuditsLoading ? (
+              {isCampaignsLoading ? (
                 Array.from({ length: 5 }).map((_, i) => (
                   <div key={i} className="flex items-center justify-between p-4 border-b border-border/20">
                     <div className="space-y-2">
@@ -74,27 +74,27 @@ export default function DashboardPage() {
                     <Skeleton className="h-8 w-12 rounded-md" />
                   </div>
                 ))
-              ) : recentAudits && recentAudits.length > 0 ? (
-                recentAudits.map((audit) => (
+              ) : recentCampaigns && recentCampaigns.length > 0 ? (
+                recentCampaigns.map((campaign) => (
                   <Link 
-                    key={audit.id} 
-                    href={`/leads/${audit.business_id}`}
+                    key={campaign.id} 
+                    href={`/leads?campaign_id=${campaign.id}`}
                     className="flex items-center justify-between p-4 border-b border-border/20 hover:bg-muted/30 transition-colors group"
                   >
                     <div className="flex flex-col gap-1">
                       <div className="font-medium group-hover:text-primary transition-colors flex items-center gap-2">
-                        {audit.business_name}
-                        {audit.has_website && <Badge variant="secondary" className="text-[9px] px-1.5 py-0 h-4">Website</Badge>}
+                        {campaign.name}
+                        <Badge variant="secondary" className="text-[9px] px-1.5 py-0 h-4">{campaign.status}</Badge>
                       </div>
                       <div className="text-xs text-muted-foreground">
-                        {formatDistanceToNow(new Date(audit.created_at), { addSuffix: true })}
+                        {formatDistanceToNow(new Date(campaign.created_at), { addSuffix: true })}
                       </div>
                     </div>
                     <div className="flex items-center gap-4">
                       <div className="flex flex-col items-end">
-                        <span className="text-[10px] text-muted-foreground uppercase tracking-wider mb-1">Score</span>
-                        <Badge variant="outline" className={`font-mono ${getScoreColor(audit.audit_score)}`}>
-                          {audit.audit_score ? `${Math.round(audit.audit_score)}/100` : "N/A"}
+                        <span className="text-[10px] text-muted-foreground uppercase tracking-wider mb-1">Leads</span>
+                        <Badge variant="outline" className={`font-mono bg-blue-500/15 text-blue-500 border-blue-500/20`}>
+                          {campaign.leads_count}
                         </Badge>
                       </div>
                       <ArrowRight className="h-4 w-4 text-muted-foreground opacity-0 -ml-2 group-hover:opacity-100 group-hover:ml-0 transition-all text-primary" />
@@ -104,10 +104,10 @@ export default function DashboardPage() {
               ) : (
                 <div className="flex flex-col items-center justify-center py-8 text-center px-4">
                   <div className="w-12 h-12 rounded-full bg-muted flex items-center justify-center mb-3">
-                    <FileCheck className="h-6 w-6 text-muted-foreground opacity-50" />
+                    <FolderKanban className="h-6 w-6 text-muted-foreground opacity-50" />
                   </div>
-                  <p className="text-sm font-medium">No audits found</p>
-                  <p className="text-xs text-muted-foreground mt-1">Run an audit on a lead to see results here.</p>
+                  <p className="text-sm font-medium">No campaigns found</p>
+                  <p className="text-xs text-muted-foreground mt-1">Create a campaign to discover leads.</p>
                 </div>
               )}
             </div>

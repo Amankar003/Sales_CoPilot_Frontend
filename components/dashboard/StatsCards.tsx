@@ -11,6 +11,14 @@ interface StatsCardsProps {
 export function StatsCards({ stats, isLoading }: StatsCardsProps) {
   const items = [
     {
+      title: "Total Campaigns",
+      value: stats?.total_campaigns || 0,
+      icon: FileBarChart,
+      color: "text-indigo-500",
+      bgColor: "bg-indigo-500/10",
+      description: "Active search projects",
+    },
+    {
       title: "Total Leads",
       value: stats?.total_leads || 0,
       icon: Users,
@@ -19,11 +27,19 @@ export function StatsCards({ stats, isLoading }: StatsCardsProps) {
       description: "Discovered and imported",
     },
     {
+      title: "Leads / Campaign",
+      value: stats?.leads_per_campaign || 0,
+      icon: Activity,
+      color: "text-emerald-500",
+      bgColor: "bg-emerald-500/10",
+      description: "Average per project",
+    },
+    {
       title: "Audits Completed",
       value: stats?.audits_completed || 0,
       icon: Activity,
-      color: "text-indigo-500",
-      bgColor: "bg-indigo-500/10",
+      color: "text-purple-500",
+      bgColor: "bg-purple-500/10",
       description: "Full site & social audits",
     },
     {

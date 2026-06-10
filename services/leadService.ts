@@ -2,7 +2,7 @@ import { api } from "./api";
 import { Business, BusinessCreate, DiscoverRequest, DiscoverResponse } from "@/types/business";
 
 export const leadService = {
-  getLeads: async (params?: { skip?: number; limit?: number; category?: string }): Promise<Business[]> => {
+  getLeads: async (params?: { skip?: number; limit?: number; category?: string; campaign_id?: number | null }): Promise<Business[]> => {
     const { data } = await api.get("/leads", { params });
     return data;
   },

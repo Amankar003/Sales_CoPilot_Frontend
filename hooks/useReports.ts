@@ -20,3 +20,10 @@ export const useGenerateReport = () => {
     },
   });
 };
+
+export const useReports = (campaignId?: number) => {
+  return useQuery({
+    queryKey: ["reports", campaignId],
+    queryFn: () => reportService.getReports(campaignId ? { campaign_id: campaignId } : undefined),
+  });
+};

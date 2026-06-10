@@ -7,11 +7,13 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Badge } from "@/components/ui/badge";
 import { Loader2, CheckCircle2, XCircle, Clock } from "lucide-react";
 import { formatDistanceToNow } from "date-fns";
+import { useActiveCampaign } from "@/components/providers/CampaignProvider";
 
 export default function EmailLogsPage() {
+  const { activeCampaignId } = useActiveCampaign();
   const { data: logs, isLoading } = useQuery({
-    queryKey: ["email-logs"],
-    queryFn: () => emailService.getLogs(),
+    queryKey: ["email-logs", activeCampaignId],
+    queryFn: () => emailService.getLogs({ campaign_id: activeCampaignId || undefined }),
   });
 
   return (

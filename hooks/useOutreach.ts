@@ -19,3 +19,10 @@ export const useGenerateOutreach = () => {
     },
   });
 };
+
+export const useAllOutreach = (campaignId?: number) => {
+  return useQuery({
+    queryKey: ["outreach", "all", campaignId],
+    queryFn: () => outreachService.getAllOutreach(campaignId ? { campaign_id: campaignId } : undefined),
+  });
+};

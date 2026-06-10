@@ -1,6 +1,7 @@
 export interface Report {
   id: number;
   business_id: number;
+  business_name?: string | null;
   audit_id: number;
   title: string;
   executive_summary: string | null;

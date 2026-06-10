@@ -3,7 +3,9 @@ import { Business } from "@/types/business";
 import { AuditSummary } from "@/types/audit";
 
 export interface DashboardStats {
+  total_campaigns: number;
   total_leads: number;
+  leads_per_campaign: number;
   audits_completed: number;
   reports_generated: number;
   emails_sent: number;
@@ -23,6 +25,11 @@ export const dashboardService = {
 
   getRecentAudits: async (limit: number = 5): Promise<AuditSummary[]> => {
     const { data } = await api.get(`/dashboard/recent-audits?limit=${limit}`);
+    return data;
+  },
+
+  getRecentCampaigns: async (limit: number = 5): Promise<any[]> => {
+    const { data } = await api.get(`/dashboard/recent-campaigns?limit=${limit}`);
     return data;
   },
 };

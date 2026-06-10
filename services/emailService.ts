@@ -7,7 +7,7 @@ export const emailService = {
     return data;
   },
 
-  getLogs: async (params?: { skip?: number; limit?: number }): Promise<EmailLog[]> => {
+  getLogs: async (params?: { skip?: number; limit?: number; campaign_id?: number }): Promise<EmailLog[]> => {
     const { data } = await api.get("/email/logs", { params });
     return data;
   },

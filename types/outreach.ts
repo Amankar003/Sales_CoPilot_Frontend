@@ -1,6 +1,7 @@
 export interface Outreach {
   id: number;
   business_id: number;
+  business_name?: string | null;
   audit_id: number | null;
   email_subject: string | null;
   email_body: string | null;

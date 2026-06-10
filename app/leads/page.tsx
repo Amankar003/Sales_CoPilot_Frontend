@@ -10,10 +10,23 @@ import { Loader2, Search, ExternalLink, MapPin, Globe } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
 import { formatDistanceToNow } from "date-fns";
+import { useActiveCampaign } from "@/components/providers/CampaignProvider";
+import { useSearchParams } from "next/navigation";
+import { useEffect, Suspense } from "react";
 
-export default function LeadsPage() {
+function LeadsPageContent() {
   const [searchTerm, setSearchTerm] = useState("");
-  const { data: leads, isLoading } = useLeads();
+  const { activeCampaignId, setActiveCampaignId } = useActiveCampaign();
+  const searchParams = useSearchParams();
+  
+  useEffect(() => {
+    const urlCampaignId = searchParams.get("campaign_id");
+    if (urlCampaignId && Number(urlCampaignId) !== activeCampaignId) {
+      setActiveCampaignId(Number(urlCampaignId));
+    }
+  }, [searchParams, activeCampaignId, setActiveCampaignId]);
+
+  const { data: leads, isLoading } = useLeads({ campaign_id: activeCampaignId });
 
   const filteredLeads = leads?.filter(lead => 
     lead.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
@@ -25,9 +38,13 @@ export default function LeadsPage() {
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight text-gradient">Leads Pipeline</h1>
+          <h1 className="text-3xl font-bold tracking-tight text-gradient">
+            {activeCampaignId ? "Campaign Leads" : "All Leads Pipeline"}
+          </h1>
           <p className="text-muted-foreground mt-1">
-            Manage your discovered businesses, run audits, and start outreach.
+            {activeCampaignId 
+              ? "Manage discovered businesses for the selected campaign."
+              : "Manage all discovered businesses across your campaigns."}
           </p>
         </div>
         <div className="flex items-center gap-2">
@@ -141,5 +158,13 @@ export default function LeadsPage() {
         </CardContent>
       </Card>
     </div>
+  );
+}
+
+export default function LeadsPage() {
+  return (
+    <Suspense fallback={<div className="flex justify-center py-12"><Loader2 className="w-8 h-8 animate-spin text-primary" /></div>}>
+      <LeadsPageContent />
+    </Suspense>
   );
 }
