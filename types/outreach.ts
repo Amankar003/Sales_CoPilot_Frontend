@@ -21,4 +21,11 @@ export interface EmailLog {
   sent_at: string | null;
   error_message: string | null;
   business_name: string | null;
+  // SMTP Pool tracking
+  smtp_account_id: number | null;
+  provider: string | null;
+  message_id: string | null;
+  delivery_status: string | null;
+  bounce_reason: string | null;
+  retry_count: number;
 }

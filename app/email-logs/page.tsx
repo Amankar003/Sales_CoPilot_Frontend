@@ -5,7 +5,7 @@ import { emailService } from "@/services/emailService";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
-import { Loader2, CheckCircle2, XCircle, Clock } from "lucide-react";
+import { Loader2, CheckCircle2, XCircle, Clock, Server } from "lucide-react";
 import { formatDistanceToNow } from "date-fns";
 import { useActiveCampaign } from "@/components/providers/CampaignProvider";
 
@@ -43,6 +43,7 @@ export default function EmailLogsPage() {
                     <TableHead>Recipient</TableHead>
                     <TableHead>Business</TableHead>
                     <TableHead>Subject</TableHead>
+                    <TableHead>Sent Via</TableHead>
                     <TableHead>Status</TableHead>
                     <TableHead className="text-right">Sent At</TableHead>
                   </TableRow>
@@ -54,6 +55,23 @@ export default function EmailLogsPage() {
                         <TableCell className="font-medium">{log.recipient_email}</TableCell>
                         <TableCell>{log.business_name}</TableCell>
                         <TableCell className="max-w-[200px] truncate">{log.subject}</TableCell>
+                        <TableCell>
+                          {log.provider ? (
+                            <div className="flex items-center gap-1.5">
+                              <Server className="w-3 h-3 text-muted-foreground" />
+                              <span className="text-xs capitalize text-muted-foreground">
+                                {log.provider === "env_fallback" ? ".env" : log.provider}
+                              </span>
+                              {log.retry_count > 0 && (
+                                <Badge variant="outline" className="text-[10px] px-1 py-0 text-amber-500 border-amber-500/20">
+                                  {log.retry_count} retry
+                                </Badge>
+                              )}
+                            </div>
+                          ) : (
+                            <span className="text-xs text-muted-foreground">—</span>
+                          )}
+                        </TableCell>
                         <TableCell>
                           {log.status === "sent" ? (
                             <Badge variant="outline" className="text-emerald-500 border-emerald-500/20 bg-emerald-500/10">
@@ -76,7 +94,7 @@ export default function EmailLogsPage() {
                     ))
                   ) : (
                     <TableRow>
-                      <TableCell colSpan={5} className="h-32 text-center text-muted-foreground">
+                      <TableCell colSpan={6} className="h-32 text-center text-muted-foreground">
                         No emails have been sent yet.
                       </TableCell>
                     </TableRow>

@@ -11,6 +11,7 @@ import {
   Send,
   Settings,
   Rocket,
+  Server,
 } from "lucide-react";
 
 import {
@@ -36,6 +37,7 @@ const workspaceItems = [
   { title: "Reports", icon: FileBarChart, url: "/reports" },
   { title: "Outreach", icon: Mail, url: "/outreach" },
   { title: "Email Logs", icon: Send, url: "/email-logs" },
+  { title: "SMTP Pool", icon: Server, url: "/settings/smtp" },
 ];
 
 export function AppSidebar() {
